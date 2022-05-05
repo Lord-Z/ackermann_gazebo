@@ -1,0 +1,126 @@
+#Description:
+#  dwa_local_planner提供一个能够驱动底座的控制器,该控制器连接了路径规划器和机器人.
+#  使用地图,规划器产生从起点到目标点的运动轨迹,在移动时,规划器在机器人周围产生一个函数,
+#  用网格地图表示。控制器的工作就是利用这个函数来确定发送给机器人的速度dx, dy, dtheta
+#
+#       >> DWA算法的基本思想 <<
+#  1.在机器人控制空间离散采样(dx, dy, dtheta)
+#  2.对每一个采样的速度进行前向模拟,看看在当前状态下,使用该采样速度移动一小段时间后会发生什么.
+#  3.评价前向模拟得到的每个轨迹,是否接近障碍物,是否接近目标,是否接近全局路径以及速度等等.舍弃非法路径
+#  4.选择得分最高的路径,发送对应的速度给底座
+#
+#  DWA与Trajectory Rollout的区别主要是在机器人的控制空间采样差异.Trajectory Rollout采样点来源于整个
+#  前向模拟阶段所有可用速度集合,而DWA采样点仅仅来源于一个模拟步骤中的可用速度集合.这意味着相比之下
+#  DWA是一种更加有效算法,因为其使用了更小采样空间;然而对于低加速度的机器人来说可能Trajectory Rollout更好,
+#  因为DWA不能对常加速度做前向模拟。
+#
+#  下面来依次介绍下每个参数的意义:
+#   * acc_lim_x:x方向的加速度绝对值
+#   * acc_lim_y:y方向的加速度绝对值,该值只有全向移动的机器人才需配置.
+#   * acc_lim_th:旋转加速度的绝对值.
+#
+#   * max_trans_vel:平移速度最大值绝对值
+#   * min_trans_vel:平移速度最小值的绝对值
+#
+#   * max_vel_x:x方向最大速度的绝对值
+#   * min_vel_x:x方向最小值绝对值,如果为负值表示可以后退.
+#   * max_vel_y:y方向最大速度的绝对值.
+#   * min_vel_y:y方向最小速度的绝对值.
+#
+#   *trans_stopped_vel:停止的时候，最大的平移速度
+#   *theta_stopped_vel:停止的时候，最大角速度
+#
+#   * max_rot_vel:最大旋转速度的绝对值.
+#   * min_rot_vel:最小旋转速度的绝对值.
+#   *
+#   * yaw_goal_tolerance:到达目标点时偏行角允许的误差，单位弧度.
+#   * xy_goal_tolerance:到达目标点时,在xy平面内与目标点的距离误差.
+#   * latch_xy_goal_tolerance:设置为true,如果到达容错距离内,机器人就会原地
+#        旋转,即使转动是会跑出容错距离外.
+#
+#   * sim_time:向前仿真轨迹的时间.
+#   * sim_granularity:步长,轨迹上采样点之间的距离,轨迹上点的密集程度.
+#   * vx_samples:x方向速度空间的采样点数.
+#   * vy_samples:y方向速度空间采样点数.
+#   * vth_samples:旋转方向的速度空间采样点数.
+#   * controller_frequency:发送给底盘控制移动指令的频率.
+#
+#   * path_distance_bias:定义控制器与给定路径接近程度.
+#   * goal_distance_bias:定义控制器与局部目标点的接近程度
+#   * occdist_scale:定义控制器躲避障碍物的程度.
+#   * stop_time_buffer:为防止碰撞,机器人必须提前停止的时间长度.
+#   * scaling_speed:启动机器人底盘的速度.
+#   * max_scaling_factor:最大缩放参数.
+#
+#   * publish_cost_grid:是否发布规划器在规划路径时的代价网格.如果设置为true,
+#       那么就会在~/cost_cloud话题上发布sensor_msgs/PointCloud2类型消息.
+#       每个点云代表代价网格,并且每个单独的评价函数都有一个字段及其每个单元
+#       的总代价，并考虑评分参数.
+#   
+#   * oscillation_reset_dist:机器人运动多远距离才会重置振荡标记.
+#   
+#   * prune_plan:机器人前进是是否清楚身后1m外的轨迹.
+latch_xy_goal_tolerance: true
+
+DWAPlannerROS:
+# Robot Configuration Parameters - stdr robot
+  acc_lim_x: 0.5
+  acc_lim_y: 0.0
+  acc_lim_th: 0.3
+
+#  max_trans_vel: 0.4#choose slightly less than the base's capability
+#  min_trans_vel: 0.1 #this is the min trans velocity when there is negligible rotational velocity
+
+  max_vel_trans: 1.0 #choose slightly less than the base's capability
+  min_vel_trans: -0.1 #this is the min trans velocity when there is negligible rotational velocity
+
+  trans_stopped_vel: 0.1
+  theta_stopped_vel: 0.1
+
+  max_vel_x: 1.2  #  0.8
+  min_vel_x: -0.2
+  max_vel_y: 1.2  #   0.2  diff drive robot,don't need set vel_y
+  min_vel_y: -0.2
+
+#  max_rot_vel: 0.5  #choose slightly less than the base's capability
+#  min_rot_vel: 0.1  #this is the min angular velocity when there is negligible translational velocity
+
+  max_vel_theta: 0.6  #choose slightly less than the base's capability
+  min_vel_theta: -0.6  #this is the min angular velocity when there is negligible translational velocity
+
+
+# Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.1  # 0.1 rad = 5.7 degree
+  xy_goal_tolerance: 0.3
+  latch_xy_goal_tolerance: true
+
+# Forward Simulation Parameters
+  sim_time: 1.0    # 1.7
+  sim_granularity: 0.025
+  vx_samples: 3    # default 3
+  vy_samples: 3    # diff drive robot, there is only one sample
+  vth_samples: 7  # 20
+  controller_frequency: 5.0
+
+# Trajectory Scoring Parameters
+  path_distance_bias: 32.0  # 32.0  -weighting for how much it should stick to the global path plan
+  goal_distance_bias: 20.0  # 24.0  -wighting for how much it should attempt to reach its goal
+  occdist_scale: 0.2        # 0.01  -weighting for how much the controller should avoid obstacles
+  forward_point_distance: 0.125 # 0.325 -how far along to place an additional scoring point
+  stop_time_buffer: 0.2     # 0.2   -amount of time a robot must stop in before colliding for a valid traj.
+  scaling_speed: 0.20       # 0.25  -absolute velocity at which to start scaling the robot's footprint
+  max_scaling_factor: 0.2   # 0.2   -how much to scale the robot's footprint when at speed.
+  publish_cost_grid: false
+
+# Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.05  # default 0.05
+
+  hdiff_scale: 1.0 #全局和局部角度判断
+  heading_points: 1
+
+# Global Plan Parameters
+  prune_plan: true
+
+  publish_traj_pc : false
+  publish_cost_grid_pc: false
+  global_frame_id: map

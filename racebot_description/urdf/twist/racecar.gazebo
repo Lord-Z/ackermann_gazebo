@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot name="racebot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Gazebo references -->
+
+<gazebo reference="base_link">
+  <mu1 value="0.0"/>
+  <mu2 value="0.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <material>Gazebo/Red</material>
+</gazebo>
+
+<gazebo reference="left_rear_wheel">
+  <mu1 value="2.0"/>
+  <mu2 value="2.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+  <material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="right_rear_wheel">
+  <mu1 value="2.0"/>
+  <mu2 value="2.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+  <material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="left_front_wheel">
+  <mu1 value="2.0"/>
+  <mu2 value="2.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="0 0 1"/>
+  <material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="right_front_wheel">
+  <mu1 value="2.0"/>
+  <mu2 value="2.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="0 0 1"/>
+  <material>Gazebo/Black</material>
+</gazebo>
+
+<!-- Gazebo plugins -->
+<!-- Gazebo Plugins -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/racebot</robotNamespace>
+      <robotParam>robot_description</robotParam>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <jointName>right_rear_wheel_joint, left_rear_wheel_joint, right_front_wheel_joint, right_steering_hinge_joint, left_front_wheel_joint, left_steering_hinge_joint</jointName>
+      <updateRate>50.0</updateRate>
+      <robotNamespace>/racebot</robotNamespace>
+      <alwaysOn>true</alwaysOn>
+    </plugin>
+  </gazebo>
+
+
+</robot>

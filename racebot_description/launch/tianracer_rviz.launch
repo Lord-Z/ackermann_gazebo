@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <!-- <param name="robot_description" textfile="$(find raceblog_description)/urdf/racecar.urdf" /> -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find racebot_description)/urdf/tianracer/tianracer.xacro" />
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find racebot_description)/rviz_config/racecar.rviz" /> 
+    <!-- <node pkg="rviz" type="rviz" name="rviz" args="" />  -->
+
+    <!-- 添加关节状态发布节点 -->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
+    <!-- 添加机器人状态发布节点 -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+    <!-- 可选:用于控制关节运动的节点 -->
+    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" />
+
+</launch>

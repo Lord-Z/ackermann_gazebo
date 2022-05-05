@@ -1,0 +1,20 @@
+#Description:
+#  本地代价地图需要配置的参数，各参数意义如下:
+#  global_frame:在本地代价地图中的全局坐标系;
+#  robot_base_frame:机器人本体的基坐标系;
+
+local_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 3.0
+  static_map: false
+  rolling_window: true
+  width: 3.0
+  height: 3.0
+  resolution: 0.05
+  transform_tolerance: 10
+  plugins:
+#    - {name: static_layer,    type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

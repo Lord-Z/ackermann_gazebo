@@ -1,0 +1,18 @@
+#Description:
+#  全局代价地图参数配置文件,各参数的意义如下：
+#  global_frame:在全局代价地图中的全局坐标系;
+#  robot_base_frame:机器人的基坐标系;
+#
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 0.5
+  publish_frequency: 0.5
+  static_map: true
+  rolling_window: false
+  transform_tolerance: 10
+  track_unknown_space: true
+  plugins:
+    - {name: static_layer,    type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

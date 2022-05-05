@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<launch>
+
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find racebot_description)/config/smart_control_config.yaml" command="load"/>
+
+  <!-- load controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/racebot" args="joint_state_controller rear_right_velocity_controller rear_left_velocity_controller front_right_steering_position_controller front_left_steering_position_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+      respawn="true" output="screen">
+      <remap from="/joint_states" to="/racebot/joint_states" />
+  </node>
+
+  <node name="cmdvel2gazebo" pkg="racebot_description" type="cmdvel2gazebo.py" respawn="true" output="screen"/>
+
+  <!-- <node name="vehicle_pose_and_velocity_updater" pkg="racebot_description" type="vehicle_pose_and_velocity_updater.py" respawn="true" output="screen"/>
+
+  <node name="transform_publisher" pkg="racebot_description" type="transform_publisher.py" respawn="true" output="screen"/> -->
+
+</launch>

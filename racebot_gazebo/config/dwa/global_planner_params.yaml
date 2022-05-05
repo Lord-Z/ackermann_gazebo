@@ -1,0 +1,39 @@
+#Description:
+#   * allow_unknown:是否允许规划器规划穿过未知区域的路径,
+#        只设计该参数为true还不行,还要在costmap_commons_params.yaml
+#        中设置track_unknown_space参数也为true才行.
+#   * default_tolerance:当设置的目的地被障碍物占据时,需要以该参数
+#        为半径寻找到最近的点作为新目的地点.
+#   * visualize_potential:是否显示从PointCloud2计算得到的势区域.
+#   * use_dijkstra:设置为true,将使用dijkstra算法,否则使用A*算法.
+#   * use_quadratic:设置为true,将使用二次函数近似函数,否则使用更加
+#      简单的计算方式,这样节省硬件计算资源.
+#   * use_grid_path:如果设置为true,则会规划一条沿着网格边界的路径,
+#      偏向于直线穿越网格,否则将使用梯度下降算法,路径更为光滑点.
+#   * old_navfn_behavior:若在某些情况下,想让global_planner完全复制navfn
+#      的功能,那就设置为true,但是需要注意navfn是非常旧的ROS系统中使用的,
+#      现在已经都用global_planner代替navfn了,所以不建议设置为true.
+#   * lethal_cost:致命代价值,默认是设置为253,可以动态来配置该参数.
+#   * neutral_cost:中等代价值,默认设置是50,可以动态配置该参数.
+#   * cost_factor:代价地图与每个代价值相乘的因子.
+#   * publish_potential:是否发布costmap的势函数.
+#   * orientation_mode: 如何设置每个点的方向（None = 0,Forward = 1,
+#       Interpolate = 2,ForwardThenInterpolate = 3,Backward = 4,
+#       Leftward = 5,Rightward = 6）（可动态重新配置）
+#   * orientation_window_size:根据orientation_mode指定的位置积分来得到
+#      使用窗口的方向.默认值1,可以动态重新配置.
+GlobalPlanner:
+  allow_unknown: false
+  default_tolerance: 0.2
+  visualize_potential: false
+  use_dijkstra: false
+  use_quadratic: true
+  use_grid_path: true
+  old_navfn_behavior: false
+
+  lethal_cost: 253
+  neutral_cost: 50
+  cost_factor: 3.0
+  publish_potential: true
+  orientation_mode: 0
+  orientation_window_size: 1
