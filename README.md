@@ -83,14 +83,6 @@ roslaunch racebot_gazebo slam_navi.launch
 
 
 
-### racebot导航建图(racebot navi&slam)
-
-```
-roslaunch racebot_gazebo racebot.launch
-
-roslaunch racebot_gazebo slam_navi.launch
-```
-
 
 
 ### tianracer导航建图(tianracer navi&slam)
