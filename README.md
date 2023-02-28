@@ -98,3 +98,7 @@ roslaunch racebot_gazebo slam_navi.launch
 ## 3.博客地址
 
 [Lord_ZYX](https://blog.csdn.net/qq_48427527?type=blog)
+
+## 4.视频地址
+[阿克曼移动机器人gazebo仿真项目开源](https://www.bilibili.com/video/BV1ku411r7wG/?spm_id_from=333.999.0.0&vd_source=ddf5e64a1dfd3bc5bcc336b44c063a29)
+
