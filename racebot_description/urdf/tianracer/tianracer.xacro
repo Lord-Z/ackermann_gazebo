@@ -50,7 +50,7 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="base_inertia" />
-  </joint>
+    </joint>
 
 
 
@@ -124,7 +124,7 @@
         <axis xyz="0 1 0" />
         <limit effort="10" velocity="1000" />
     </joint>
-     <xacro:wheel_transmission name="left_front_wheel" />
+    <xacro:wheel_transmission name="left_front_wheel" />
 
 
 
@@ -132,7 +132,7 @@
 <link name="right_steering_hinge">
         <visual>
             <geometry>
-                 <cylinder radius="0.01" length="0.005" />
+                <cylinder radius="0.01" length="0.005" />
             </geometry>
             <origin xyz="0 0 0" rpy="1.57 0 0" />
             <material name="black">
@@ -166,7 +166,7 @@
 
 
 
-     <link name="right_front_wheel">
+    <link name="right_front_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.033" length="0.02" />
@@ -399,6 +399,6 @@
         <axis xyz="0 0 1" />
     </joint>
 
-  <xacro:include filename="$(find racebot_description)/urdf/ackermann/racecar.gazebo" />
+    <xacro:include filename="$(find racebot_description)/urdf/ackermann/racecar.gazebo" />
 
 </robot>

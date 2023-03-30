@@ -59,6 +59,8 @@ class odom_class:
         #（在起始位置：以中线x轴为分界线，左正半y轴为正，右负半y轴为负，超过负半x轴直接跳变正负最大值）
         self.yaw_angle = euler_from_quaternion(
             (data.orientation.x,data.orientation.y,data.orientation.z,data.orientation.w))
+        
+        
         # 四元数 xy轴角度（四元数，必须）
         self.odom_topic.pose.pose.orientation.x = data.orientation.x
         self.odom_topic.pose.pose.orientation.y = data.orientation.y

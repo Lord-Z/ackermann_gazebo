@@ -164,6 +164,15 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
+catkin_install_python(PROGRAMS
+  scripts/gazebo_odometry.py
+  scripts/keyboard_teleop.py
+  scripts/servo_commands.py
+  scripts/transform.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
 # install(TARGETS ${PROJECT_NAME}_node

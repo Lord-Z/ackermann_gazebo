@@ -9,8 +9,8 @@ banner = """
 1. Reading from the keyboard  
 2. Publishing to AckermannDriveStamped!
 ---------------------------
-        w
-   a    s    d
+  #       w
+  #  a    s    d
 anything else : stop
 CTRL-C to quit
 """
@@ -23,11 +23,11 @@ keyBindings = {
 }
 
 def getKey():
-   tty.setraw(sys.stdin.fileno())
-   select.select([sys.stdin], [], [], 0)
-   key = sys.stdin.read(1)
-   termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
-   return key
+    tty.setraw(sys.stdin.fileno())
+    select.select([sys.stdin], [], [], 0)
+    key = sys.stdin.read(1)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
 
 speed = 1
 turn = 0.6
@@ -46,29 +46,29 @@ if __name__=="__main__":
 
   try:
     while(1):
-       key = getKey()
-       if key in keyBindings.keys():
+      key = getKey()
+      if key in keyBindings.keys():
           x = keyBindings[key][0]
           th = keyBindings[key][1]
-       else:
+      else:
           x = 0
           th = 0
           if (key == '\x03'):
-             break
-       msg = AckermannDriveStamped();
-       msg.header.stamp = rospy.Time.now();
-       msg.header.frame_id = "base_link";
+            break
+      msg = AckermannDriveStamped()
+      msg.header.stamp = rospy.Time.now()
+      msg.header.frame_id = "base_link"
 
-       msg.drive.speed = x*speed;
-       msg.drive.acceleration = 1;
-       msg.drive.jerk = 1;
-       msg.drive.steering_angle = th*turn
-       msg.drive.steering_angle_velocity = 1
+      msg.drive.speed = x*speed
+      msg.drive.acceleration = 1
+      msg.drive.jerk = 1
+      msg.drive.steering_angle = th*turn
+      msg.drive.steering_angle_velocity = 1
 
-       pub.publish(msg)
+      pub.publish(msg)
 
   except:
-    print 'error'
+    print ('error')
 
   finally:
     msg = AckermannDriveStamped();

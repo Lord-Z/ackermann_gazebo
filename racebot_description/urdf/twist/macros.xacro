@@ -31,7 +31,7 @@
   </transmission>
 </xacro:macro> -->
 
- <!-- motors and transmissions for the two rear wheels -->
+  <!-- motors and transmissions for the two rear wheels -->
   <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="right_rear_wheel_joint">

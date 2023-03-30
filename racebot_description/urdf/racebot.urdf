@@ -32,9 +32,6 @@
         <origin xyz="0 0 0.032" rpy="0 0 0" />
     </joint>
 
-
-
-
     <link name="left_steering_hinge">
         <visual>
             <geometry>
@@ -68,10 +65,6 @@
     </joint>
     <!-- <xacro:steering_hinge_transmission name="left_steering_hinge" /> -->
 
-
-
-
-
     <link name="left_front_wheel">
         <visual>
             <geometry>
@@ -102,15 +95,12 @@
         <axis xyz="0 1 0" />
         <limit effort="10" velocity="1000" />
     </joint>
-     <!-- <xacro:wheel_transmission name="left_front_wheel" /> -->
+    <!-- <xacro:wheel_transmission name="left_front_wheel" /> -->
 
-
-
-
-<link name="right_steering_hinge">
+    <link name="right_steering_hinge">
         <visual>
             <geometry>
-                 <cylinder radius="0.01" length="0.005" />
+                <cylinder radius="0.01" length="0.005" />
             </geometry>
             <origin xyz="0 0 0" rpy="1.57 0 0" />
             <material name="black">
@@ -144,7 +134,7 @@
 
 
 
-     <link name="right_front_wheel">
+    <link name="right_front_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.033" length="0.02" />

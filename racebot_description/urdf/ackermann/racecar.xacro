@@ -35,8 +35,6 @@
     </joint>
 
 
-
-
     <link name="base_inertia">
     <inertial>
             <origin xyz="0 0 0" />
@@ -50,7 +48,7 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="base_inertia" />
-  </joint>
+    </joint>
 
 
 

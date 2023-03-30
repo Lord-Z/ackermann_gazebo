@@ -45,7 +45,7 @@
 
 
 
-       <link name="left_steering_hinge">
+    <link name="left_steering_hinge">
         <visual>
             <geometry>
                 <cylinder radius="0.01" length="0.005" />
@@ -116,7 +116,7 @@
 <link name="right_steering_hinge">
         <visual>
             <geometry>
-                 <cylinder radius="0.01" length="0.005" />
+                <cylinder radius="0.01" length="0.005" />
             </geometry>
             <origin xyz="0 0 0" rpy="1.57 0 0" />
             <material name="black">
@@ -145,7 +145,7 @@
     </joint>
 
 
-     <link name="right_front_wheel">
+    <link name="right_front_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.033" length="0.02" />
@@ -244,6 +244,6 @@
         <limit effort="10" velocity="1000" />
     </joint>
 
-  <xacro:include filename="$(find racebot_description)/urdf/twist/racecar.gazebo" />
+    <xacro:include filename="$(find racebot_description)/urdf/twist/racecar.gazebo" />
 
 </robot>
